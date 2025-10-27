@@ -1,4 +1,5 @@
 import LoginScreen from "@/app/(auth)/screens/LoginScreen";
+import RegisterScreen from "@/app/(auth)/screens/RegisterScreen";
 import HomeAuth from "@/features/auth/HomeAuth";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -19,6 +20,7 @@ export default function AppNavigator() {
       >
         <Stack.Screen name="HomeAuth" component={HomeAuth} />
         <Stack.Screen name="SignIn" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

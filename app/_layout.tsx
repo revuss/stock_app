@@ -1,6 +1,7 @@
 import {
   Montserrat_400Regular,
   Montserrat_500Medium,
+  Montserrat_600SemiBold,
   Montserrat_700Bold,
   Montserrat_900Black,
   useFonts,
@@ -30,6 +31,7 @@ export default function RootLayout() {
     Montserrat_700Bold,
     Montserrat_500Medium,
     Montserrat_900Black,
+    Montserrat_600SemiBold,
   });
 
   useEffect(() => {

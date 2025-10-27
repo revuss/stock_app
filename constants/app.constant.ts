@@ -1,20 +1,29 @@
 export const AUTH_SLIDES = [
   {
     id: "1",
-    title: "Track Real-Time Market Data",
+    title: "Real-Time Market Tracking",
     description:
-      "Stay ahead of the curve with live stock updates, market trends, and performance insights delivered instantly to your screen.",
+      "Follow live stock movements and market trends as they happen — all in one clean, intuitive dashboard.",
   },
   {
     id: "2",
-    title: "Monitor Your Portfolio Effortlessly",
+    title: "Effortless Portfolio Insight",
     description:
-      "Keep an eye on your favorite stocks and investments in one place. Analyze gains, losses, and key stats in real time.",
+      "View and analyze your holdings instantly. Track gains, losses, and performance metrics with clarity.",
   },
   {
     id: "3",
-    title: "Make Smarter Investment Decisions",
+    title: "Smarter Investment Decisions",
     description:
-      "Access detailed analytics, charts, and alerts to help you make informed trading moves anytime, anywhere.",
+      "Make data-driven moves with detailed analytics, price alerts, and timely insights — anywhere, anytime.",
   },
 ];
+export const PRIVACY_TEXT =
+  "Your email and trades, trends, and tickers are private and will never be displayed publicly.";
+export const CREATE_ACCOUNT = "Create an account";
+export const NEW_TO_COMPANY = "New to Stocker?";
+export const ALREADY_ACCOUNT = "Already have an account? ";
+export const LOGIN_DESCRIPTION = "Watch the Markets Move in Real Time";
+export const LOGIN_XL_DESCRIPTION =
+  "Track stocks, watch trends, and never miss a market move — all in real time.";
+export const LOGIN = "Login";

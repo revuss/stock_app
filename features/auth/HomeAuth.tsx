@@ -38,7 +38,13 @@ const HomeAuth = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <ThemedButton title="Register" type="filled" />
+        <ThemedButton
+          title="Register"
+          type="filled"
+          onPress={() => {
+            router.push("/screens/RegisterScreen");
+          }}
+        />
         <ThemedButton
           title="Sign in"
           type="outlined"
