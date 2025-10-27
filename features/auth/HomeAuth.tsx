@@ -4,12 +4,17 @@ import ThemedButton from "@/components/ui/ThemedButton";
 import ThemedContainer from "@/components/ui/ThemedContainer";
 import TitleText from "@/components/ui/TitleText";
 import { AUTH_SLIDES } from "@/constants/app.constant";
-import { router } from "expo-router";
+import { RootStackParamList } from "@/navigation/AppNavigator";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
 const HomeAuth = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <ThemedContainer padded={false} centered={false}>
       <View style={styles.topContentWrapper}>
@@ -42,14 +47,14 @@ const HomeAuth = () => {
           title="Register"
           type="filled"
           onPress={() => {
-            router.push("/screens/RegisterScreen");
+            navigation.navigate("Register");
           }}
         />
         <ThemedButton
           title="Sign in"
           type="outlined"
           onPress={() => {
-            router.push("/screens/LoginScreen");
+            navigation.navigate("SignIn");
           }}
         />
       </View>

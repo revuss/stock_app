@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import * as Yup from "yup";
 
+import CustomToast from "@/components/ui/CustomToast";
 import DescriptionBold from "@/components/ui/DescriptionBold";
 import ThemedButton from "@/components/ui/ThemedButton";
 import ThemedContainer from "@/components/ui/ThemedContainer";
@@ -23,9 +24,16 @@ import {
   NEW_TO_COMPANY,
 } from "@/constants/app.constant";
 import { Colors } from "@/constants/theme";
-import { router } from "expo-router";
+import { RootStackParamList } from "@/navigation/AppNavigator";
+import { loginSuccess } from "@/store/authSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import Toast from "react-native-toast-message";
+import { useDispatch } from "react-redux";
 import AuthFooter from "./AuthFooter";
 import AuthXLSlide from "./AuthXLSlide";
+import { saveAuthToken } from "./authFunctions";
 
 interface LoginFormData {
   email: string;
@@ -40,6 +48,10 @@ const schema = Yup.object({
 }).required();
 
 const Login: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const dispatch = useDispatch();
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme ?? "light"];
   const { width } = useWindowDimensions();
@@ -55,13 +67,53 @@ const Login: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
-    console.log("Login Data:", data);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    alert("✅ Login successful!");
+    try {
+      const existingUsers = await AsyncStorage.getItem("dummy_users");
+      const users = existingUsers ? JSON.parse(existingUsers) : [];
+
+      // Find user by matching email and password
+      const userLoggedIn = users.find(
+        (user: { email: string; password: string }) =>
+          user.email === data.email && user.password === data.password
+      );
+
+      if (userLoggedIn) {
+        console.log("user", userLoggedIn);
+        Toast.show({
+          type: "success",
+          text1: "Login Successful",
+          text2: `Welcome back, ${userLoggedIn.email}!`,
+        });
+
+        await saveAuthToken(JSON.stringify(userLoggedIn));
+        dispatch(loginSuccess(userLoggedIn));
+        await AsyncStorage.setItem(
+          "current_user",
+          JSON.stringify(userLoggedIn)
+        );
+        setTimeout(() => {
+          navigation.navigate("home");
+        }, 1000);
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Login Failed",
+          text2: "Invalid email or password. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Something went wrong. Please try again later.",
+      });
+    }
   };
 
   return (
     <ThemedContainer style={styles.root}>
+      <CustomToast />
       <View style={[styles.container, isLargeScreen && styles.row]}>
         {isLargeScreen && <AuthXLSlide />}
 
@@ -120,7 +172,7 @@ const Login: React.FC = () => {
             <Text
               style={{ color: theme.primary }}
               onPress={() => {
-                router.push("/(auth)/screens/RegisterScreen");
+                navigation.navigate("Register");
               }}
             >
               {CREATE_ACCOUNT}

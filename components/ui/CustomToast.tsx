@@ -1,6 +1,12 @@
 import { Colors } from "@/constants/theme";
 import React from "react";
-import { StyleSheet, Text, View, useColorScheme } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+  useWindowDimensions,
+} from "react-native";
 import Toast from "react-native-toast-message";
 
 interface ToastConfigProps {
@@ -57,27 +63,43 @@ const ToastCard: React.FC<ToastCardProps> = ({
   text2,
   borderColor,
   themeColors,
-}) => (
-  <View
-    style={[
-      styles.toast,
-      {
-        backgroundColor: themeColors.card,
-        borderColor: themeColors.border,
-      },
-    ]}
-  >
-    <View style={[styles.indicator, { backgroundColor: borderColor }]} />
-    <View style={styles.textContainer}>
-      <Text style={[styles.title, { color: themeColors.text }]}>{text1}</Text>
-      {text2 && (
-        <Text style={[styles.subtitle, { color: themeColors.textSecondary }]}>
-          {text2}
+}) => {
+  const { width } = useWindowDimensions();
+
+  const dynamicMinWidth = width > 768 ? "30%" : "80%"; // tablet vs mobile
+  return (
+    <View
+      style={[
+        styles.toast,
+        {
+          backgroundColor: themeColors.card,
+          borderColor: themeColors.border,
+          minWidth: dynamicMinWidth,
+        },
+      ]}
+    >
+      <View style={[styles.indicator, { backgroundColor: borderColor }]} />
+      <View style={styles.textContainer}>
+        <Text
+          style={[styles.title, { color: themeColors.text }]}
+          numberOfLines={2}
+          ellipsizeMode="clip"
+        >
+          {" "}
+          {text1}
         </Text>
-      )}
+        {text2 && (
+          <Text
+            style={[styles.subtitle, { color: themeColors.textSecondary }]}
+            numberOfLines={2}
+          >
+            {text2}
+          </Text>
+        )}
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   toast: {
@@ -87,7 +109,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     alignSelf: "center",
-    minWidth: "30%",
     maxWidth: "85%",
     borderWidth: 2,
     shadowColor: "#000",

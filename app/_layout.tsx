@@ -1,3 +1,4 @@
+import { store } from "@/store/store";
 import {
   Montserrat_400Regular,
   Montserrat_500Medium,
@@ -11,13 +12,14 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
 import "react-native-reanimated";
+import { Provider } from "react-redux";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import AppNavigator from "@/navigation/AppNavigator";
 
 export const unstable_settings = {
   anchor: "(auth)",
@@ -46,14 +48,10 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="modal"
-          options={{ presentation: "modal", title: "Modal" }}
-        />
-      </Stack>
-      <StatusBar style="auto" />
+      <Provider store={store}>
+        <AppNavigator />
+        <StatusBar style="auto" />
+      </Provider>
     </ThemeProvider>
   );
 }

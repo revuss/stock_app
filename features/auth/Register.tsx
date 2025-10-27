@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -24,7 +25,9 @@ import {
   LOGIN_DESCRIPTION,
 } from "@/constants/app.constant";
 import { Colors } from "@/constants/theme";
-import { router } from "expo-router";
+import { RootStackParamList } from "@/navigation/AppNavigator";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Toast from "react-native-toast-message";
 import AuthFooter from "./AuthFooter";
 import AuthXLSlide from "./AuthXLSlide";
@@ -46,6 +49,8 @@ const schema = Yup.object({
 }).required();
 
 const Register: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme ?? "light"];
   const { width } = useWindowDimensions();
@@ -62,31 +67,33 @@ const Register: React.FC = () => {
 
   const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     try {
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
-      // const newUser = {
-      //   email: data?.email,
-      //   password: data?.password,
-      //   registeredAt: new Date().toISOString(),
-      // };
-      // const existingUsers = await AsyncStorage.getItem("dummy_users");
-      // const users = existingUsers ? JSON.parse(existingUsers) : [];
-      // const userExists = users.some((u: any) => u.email === newUser.email);
-      // if (userExists) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const newUser = {
+        email: data?.email,
+        password: data?.password,
+        registeredAt: new Date().toISOString(),
+      };
+      const existingUsers = await AsyncStorage.getItem("dummy_users");
+      const users = existingUsers ? JSON.parse(existingUsers) : [];
+      const userExists = users.some((u: any) => u.email === newUser.email);
+      if (userExists) {
+        Toast.show({
+          type: "info",
+          text1: "Duplicate 🛑",
+          text2: "User already registered, try logging in instead",
+        });
+        return;
+      }
+      users.push(newUser);
+      await AsyncStorage.setItem("dummy_users", JSON.stringify(users));
       Toast.show({
-        type: "info",
-        text1: "Duplicate",
-        text2: "User already registerd, Try logging in instead",
+        type: "success",
+        text1: "Registration successful 🎉",
+        text2: "Your account has been created locally.",
       });
-      // return;
-      // }
-      // users.push(newUser);
-      // await AsyncStorage.setItem("dummy_users", JSON.stringify(users));
-      // Toast.show({
-      //   type: "success",
-      //   text1: "Registration successful 🎉",
-      //   text2: "Your account has been created locally.",
-      // });
-      // router.push("/(auth)/screens/LoginScreen");
+      setTimeout(() => {
+        navigation.navigate("SignIn");
+      }, 3000);
     } catch (error) {
       console.error("Error storing user data:", error);
       alert("Error occured while registering user!");
@@ -169,7 +176,7 @@ const Register: React.FC = () => {
             <Text
               style={{ color: theme.primary }}
               onPress={() => {
-                router.push("/(auth)/screens/LoginScreen");
+                navigation.navigate("SignIn");
               }}
             >
               {LOGIN}
