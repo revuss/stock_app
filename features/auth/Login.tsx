@@ -3,7 +3,6 @@ import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
   ActivityIndicator,
-  Platform,
   StyleSheet,
   Text,
   View,
@@ -153,24 +152,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 60,
   },
-  infoContainer: {
-    flex: 1,
-    justifyContent: "center",
-    paddingRight: 40,
-    maxWidth: 400,
-  },
-  infoText: {
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: "left",
-    marginTop: 1,
-  },
-  brand: {
-    fontSize: 32,
-    fontFamily: "Montserrat_500Medium",
-    fontWeight: "700",
-    marginBottom: 12,
-  },
   formContainer: {
     width: "100%",
     maxWidth: 400,
@@ -185,17 +166,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     marginBottom: 32,
-  },
-  input: {
-    borderWidth: 1.3,
-    borderRadius: 10,
-    padding: Platform.OS === "web" ? 14 : 12,
-    marginBottom: 14,
-    fontSize: 16,
-  },
-  button: {
-    marginTop: 10,
-    borderRadius: 10,
   },
   footerText: {
     textAlign: "center",

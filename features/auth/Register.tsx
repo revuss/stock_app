@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import * as Yup from "yup";
 
+import CustomToast from "@/components/ui/CustomToast";
 import DescriptionBold from "@/components/ui/DescriptionBold";
 import ThemedButton from "@/components/ui/ThemedButton";
 import ThemedContainer from "@/components/ui/ThemedContainer";
@@ -24,6 +25,7 @@ import {
 } from "@/constants/app.constant";
 import { Colors } from "@/constants/theme";
 import { router } from "expo-router";
+import Toast from "react-native-toast-message";
 import AuthFooter from "./AuthFooter";
 import AuthXLSlide from "./AuthXLSlide";
 
@@ -59,13 +61,41 @@ const Register: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
-    console.log("Login Data:", data);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    alert("✅ Login successful!");
+    try {
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
+      // const newUser = {
+      //   email: data?.email,
+      //   password: data?.password,
+      //   registeredAt: new Date().toISOString(),
+      // };
+      // const existingUsers = await AsyncStorage.getItem("dummy_users");
+      // const users = existingUsers ? JSON.parse(existingUsers) : [];
+      // const userExists = users.some((u: any) => u.email === newUser.email);
+      // if (userExists) {
+      Toast.show({
+        type: "info",
+        text1: "Duplicate",
+        text2: "User already registerd, Try logging in instead",
+      });
+      // return;
+      // }
+      // users.push(newUser);
+      // await AsyncStorage.setItem("dummy_users", JSON.stringify(users));
+      // Toast.show({
+      //   type: "success",
+      //   text1: "Registration successful 🎉",
+      //   text2: "Your account has been created locally.",
+      // });
+      // router.push("/(auth)/screens/LoginScreen");
+    } catch (error) {
+      console.error("Error storing user data:", error);
+      alert("Error occured while registering user!");
+    }
   };
 
   return (
     <ThemedContainer style={styles.root}>
+      <CustomToast />
       <View style={[styles.container, isLargeScreen && styles.row]}>
         {isLargeScreen && <AuthXLSlide />}
 
@@ -112,7 +142,7 @@ const Register: React.FC = () => {
                 control={control}
                 placeholder="Confirm Password"
                 secureTextEntry
-                error={errors.password}
+                error={errors.confirmPassword}
               />
             )}
           />
