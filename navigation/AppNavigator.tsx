@@ -1,4 +1,4 @@
-import LoginScreen from "@/app/screens/LoginScreen";
+import LoginScreen from "@/app/(auth)/screens/LoginScreen";
 import HomeAuth from "@/features/auth/HomeAuth";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";

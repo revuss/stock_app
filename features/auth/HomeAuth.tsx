@@ -4,17 +4,12 @@ import ThemedButton from "@/components/ui/ThemedButton";
 import ThemedContainer from "@/components/ui/ThemedContainer";
 import TitleText from "@/components/ui/TitleText";
 import { AUTH_SLIDES } from "@/constants/app.constant";
-import { RootStackParamList } from "@/navigation/AppNavigator";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
 const HomeAuth = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
   return (
     <ThemedContainer padded={false} centered={false}>
       <View style={styles.topContentWrapper}>

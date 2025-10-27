@@ -1,7 +1,13 @@
 import React from "react";
 
-import HomeAuth from "@/features/auth/HomeAuth";
+import { Stack } from "expo-router";
 
-export default function TabLayout() {
-  return <HomeAuth />;
+export default function AuthLayout() {
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    />
+  );
 }
